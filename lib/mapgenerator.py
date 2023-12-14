@@ -1,6 +1,6 @@
 import random
 import datetime
-from Nodes import Node
+from nodes import Node
 
 
 class Mapgenerator:
@@ -68,5 +68,5 @@ class Mapgenerator:
         )
 
 
-my_map = Mapgenerator(200)
+my_map = Mapgenerator(201)
 my_map.print_nodes()
