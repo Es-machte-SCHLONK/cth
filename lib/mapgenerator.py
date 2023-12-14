@@ -1,6 +1,9 @@
 import random
+from random import randrange, choice
 import datetime
-from nodes import Node
+
+from nodes import *
+import pygame as pyg
 
 
 class Mapgenerator:
@@ -67,6 +70,5 @@ class Mapgenerator:
             str(self.blackNodeCount)
         )
 
-
-my_map = Mapgenerator(201)
+my_map = Mapgenerator(200)
 my_map.print_nodes()
