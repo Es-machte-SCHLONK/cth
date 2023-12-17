@@ -1,19 +1,10 @@
-import random
-from random import randrange, choice
-import datetime
-
-from cth.lib import nodes as nd
-import pygame as pyg
+from cth.lib import nodelist as nl
 
 
-class Mapgenerator:
-    now = float(datetime.datetime.now().timestamp())
-    random.seed(now)
-    nodeList = []
+class Graph:
 
     def __init__(self, total_node_count):
-        return 0
-
+        self.nodeList = nl.NodeList(10)
 
 
 

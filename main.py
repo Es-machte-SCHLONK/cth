@@ -1,4 +1,5 @@
 import pygame as pyg
+from cth.lib import map
 
 
 class GuiSurfaces:
@@ -34,14 +35,20 @@ class GuiSurfaces:
         self.actions_surface.fill(actions_color)
 
 
+
+
+
 class Game:
     def __init__(self):
         pyg.init()
         self.root_width = 1024
         self.root_height = 768
         self.root = pyg.display.set_mode((self.root_width, self.root_height), pyg.RESIZABLE)
+        self.graph = map.Graph(10)
         self.running = True
         self.gui_surfaces = GuiSurfaces(self.root)
+        #DEBUG:
+        print(self.graph.nodeList.nodes[9])
 
     def handle_events(self):
         for event in pyg.event.get():
