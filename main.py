@@ -1,55 +1,79 @@
 import pygame as pyg
 
-pyg.init()
 
-root_width = 1024
-root_height = 768
+class GuiSurfaces:
+    def __init__(self, root):
+        self.map_surface = None
+        self.players_surface = None
+        self.actions_surface = None
+        self.root_height = root.get_height()
+        self.root_width = root.get_width()
+        # 1. map, 2. players, 3. actions!
+        self.init_map_surfaces()
+        self.init_players_surfaces()
+        self.init_actions_surfaces()
 
-root = pyg.display.set_mode((root_width, root_height), pyg.RESIZABLE)
+    def init_map_surfaces(self):
+        map_height = int(self.root_height * 0.8)
+        map_color = (34, 34, 34)
+        self.map_surface = pyg.Surface((self.root_width, map_height))
+        self.map_surface.fill(map_color)
 
-map_height = int(root_height * 0.8)
-map_color = (34, 34, 34)
-map_surface = pyg.Surface((root_width, map_height))
-map_surface.fill(map_color)
+    def init_players_surfaces(self):
+        players_height = self.root_height - self.map_surface.get_height()
+        players_width = int(self.root_width * 0.5)
+        players_color = (0, 100, 0)
+        self.players_surface = pyg.Surface((players_width, players_height))
+        self.players_surface.fill(players_color)
 
-players_height = root_height - map_height
-players_width = int(root_width * 0.5)
-players_color = (0, 100, 0)
-players_surface = pyg.Surface((players_width, players_height))
-players_surface.fill(players_color)
+    def init_actions_surfaces(self):
+        actions_height = self.players_surface.get_height()
+        actions_width = self.root_width - self.players_surface.get_width()
+        actions_color = (138, 0, 0)
+        self.actions_surface = pyg.Surface((actions_width, actions_height))
+        self.actions_surface.fill(actions_color)
 
-actions_height = players_height
-actions_width = root_width - players_width
-actions_color = (138, 0, 0)
-actions_surface = pyg.Surface((actions_width, actions_height))
-actions_surface.fill(actions_color)
 
-running = True
-while running:
-    for event in pyg.event.get():
-        if event.type == pyg.QUIT:
-            running = False
-        elif event.type == pyg.KEYDOWN:
-            if event.key == pyg.K_ESCAPE:
-                running = False
-        elif event.type == pyg.VIDEORESIZE:
-            root_width, root_height = event.size
-            root = pyg.display.set_mode((root_width, root_height), pyg.RESIZABLE)
-            map_height = int(root_height * 0.8)
-            players_height = root_height - map_height
-            players_width = int(root_width * 0.5)
-            actions_height = players_height
-            actions_width = root_width - players_width
-            map_surface = pyg.Surface((root_width, map_height))
-            players_surface = pyg.Surface((players_width, players_height))
-            actions_surface = pyg.Surface((actions_width, actions_height))
-            map_surface.fill(map_color)
-            players_surface.fill(players_color)
-            actions_surface.fill(actions_color)
+class Game:
+    def __init__(self):
+        pyg.init()
+        self.root_width = 1024
+        self.root_height = 768
+        self.root = pyg.display.set_mode((self.root_width, self.root_height), pyg.RESIZABLE)
+        self.running = True
+        self.gui_surfaces = GuiSurfaces(self.root)
 
-    root.blit(map_surface, (0, 0))
-    root.blit(players_surface, (0, map_height))
-    root.blit(actions_surface, (players_width,map_height))
-    pyg.display.update()
+    def handle_events(self):
+        for event in pyg.event.get():
+            if event.type == pyg.QUIT:
+                self.running = False
+            elif event.type == pyg.KEYDOWN:
+                if event.key == pyg.K_ESCAPE:
+                    self.running = False
+            elif event.type == pyg.VIDEORESIZE:
+                self.root_width, self.root_height = event.size
+                self.root = pyg.display.set_mode((self.root_width, self.root_height), pyg.RESIZABLE)
+                self.gui_surfaces.__init__(self.root)
 
-pyg.quit()
+    def render(self):
+
+        self.root.blit(self.gui_surfaces.map_surface, (0, 0))
+        self.root.blit(
+            self.gui_surfaces.players_surface, (0, self.gui_surfaces.map_surface.get_height())
+        )
+        self.root.blit(
+            self.gui_surfaces.actions_surface,
+            (self.gui_surfaces.players_surface.get_width(), self.gui_surfaces.map_surface.get_height())
+        )
+
+    def run(self):
+        while self.running:
+            self.handle_events()
+            self.render()
+            pyg.display.update()
+
+
+if __name__ == "__main__":
+    game = Game()
+    game.run()
+    pyg.quit()
