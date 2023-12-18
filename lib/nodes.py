@@ -1,8 +1,8 @@
 
 class Node:
 
-    def __init__(self, no, green, red):
-        self.id = int(no)
+    def __init__(self, id, green, red):
+        self.id = int(id)
         self.yellow = True
         self.green = bool(green)
         self.red = bool(red)

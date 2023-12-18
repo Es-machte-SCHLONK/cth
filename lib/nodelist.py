@@ -14,11 +14,11 @@ class NodeList:
     #   every 40 nodes, a BLACK node.       >> 2,5 per 100 >> 25 per 1000
     #   Every RED node is also GREEN and YELLOW node.
     #   Black nodes are special.
-    def __init__(self, count):
+    def __init__(self, node_count):
         self.green_count = 0
         self.red_count = 0
         self.black_count = 0
-        for i in range(1, count + 1):
+        for i in range(1, node_count + 1):
             random_int_color = random.randint(1, 1000)
             random_int_black = random.randint(1, 1000)
             if random_int_color <= 75:
