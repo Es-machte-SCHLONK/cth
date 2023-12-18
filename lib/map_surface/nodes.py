@@ -7,7 +7,9 @@ class Node:
         self.green = bool(green)
         self.red = bool(red)
         self.black = False
-        self.node_size = 15
+        self.node_size = 8
+        self.x = 0
+        self.y = 0
 
     def set_black(self):
         self.black = True

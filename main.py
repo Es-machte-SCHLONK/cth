@@ -1,6 +1,7 @@
 import pygame as pyg
-from cth.lib import graph
-from cth.lib import guisurfaces as gui
+from cth.lib.map_surface import map_surface as mas
+from cth.lib.players_surface import players_surface as pls
+from cth.lib.actions_surface import actions_surface as acs
 
 
 class Game:
@@ -10,7 +11,9 @@ class Game:
         self.root_height = 768
         self.root = pyg.display.set_mode((self.root_width, self.root_height), pyg.RESIZABLE)
         self.running = True
-        self.gui_surfaces = gui.GuiSurfaces(self.root)
+        self.maps = mas.Maps(self.root)
+        self.players = pls.Players(self.root)
+        self.actions = acs.Actions(self.root)
 
     def handle_events(self):
         for event in pyg.event.get():
@@ -20,22 +23,22 @@ class Game:
                 if event.key == pyg.K_ESCAPE:
                     self.running = False
                 if event.key == pyg.K_SPACE:
-                    print("Male Karte")
-                    self.gui_surfaces.draw_map_surface(10)
+                    self.maps.draw_map_surface(10)
             elif event.type == pyg.VIDEORESIZE:
                 self.root_width, self.root_height = event.size
                 self.root = pyg.display.set_mode((self.root_width, self.root_height), pyg.RESIZABLE)
-                self.gui_surfaces.__init__(self.root)
+                self.maps.__init__(self.root)
+                self.players.__init__(self.root)
+                self.actions.__init__(self.root)
 
     def render(self):
-
-        self.root.blit(self.gui_surfaces.map_surface, (0, 0))
+        self.root.blit(self.maps.surface, (0, 0))
         self.root.blit(
-            self.gui_surfaces.players_surface, (0, self.gui_surfaces.map_surface.get_height())
+            self.players.surface, (0, self.maps.surface.get_height())
         )
         self.root.blit(
-            self.gui_surfaces.actions_surface,
-            (self.gui_surfaces.players_surface.get_width(), self.gui_surfaces.map_surface.get_height())
+            self.actions.surface,
+            (self.players.surface.get_width(), self.maps.surface.get_height())
         )
 
     def run(self):

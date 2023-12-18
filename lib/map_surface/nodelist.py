@@ -1,6 +1,7 @@
 import random
 import datetime
-from cth.lib import nodes
+import pygame as pyg
+from cth.lib.map_surface import nodes
 
 
 class NodeList:
@@ -53,3 +54,23 @@ class NodeList:
         print_string = "\n".join(strings)
         print_string = print_string.join(total)
         return print_string
+
+    def draw_graph(self, map_surface):
+        yellow_color = (200, 150, 0)
+        green_color = (0, 100, 0)
+        red_color = (100, 0, 0)
+        black_color = (128, 128, 128)
+        node_color = black_color
+        for node in self.nodes:
+            x = random.randint(0 + node.node_size, map_surface.get_width() - node.node_size)
+            y = random.randint(0 + node.node_size, map_surface.get_height() - node.node_size)
+            if node.yellow:
+                node_color = yellow_color
+            if node.green:
+                node_color = green_color
+            if node.red:
+                node_color = red_color
+            pyg.draw.circle(map_surface, node_color, (x, y), node.node_size)
+
+    def get_node_count(self):
+        return len(self.nodes)
