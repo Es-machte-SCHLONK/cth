@@ -16,6 +16,8 @@ class NodeList:
     #   Every RED node is also GREEN and YELLOW node.
     #   Black nodes are special.
     def __init__(self, node_count):
+        if(node_count > 500):
+            node_count = 500
         self.green_count = 0
         self.red_count = 0
         self.black_count = 0
@@ -70,7 +72,29 @@ class NodeList:
                 node_color = green_color
             if node.red:
                 node_color = red_color
-            pyg.draw.circle(map_surface, node_color, (x, y), node.node_size)
+            pyg.draw.rect(map_surface, node_color, (x - 5, y - 5, 10, 10))
+
+    def draw_node(self, map_surface):
+        pos_x = 200
+        pos_y = 200
+        radius = 15
+        yellow = (200, 150, 0)
+        green = (0, 100, 0)
+        red = (100, 0, 0)
+        black = (0,0,0)
+        color_outer = red
+        color_inner = green
+        pyg.draw.circle(map_surface, color_outer, (pos_x, pos_y), radius, radius)
+        pyg.draw.circle(map_surface, color_inner, (pos_x, pos_y), int(radius * 0.8), int(radius * 0.8))
+
+        font = pyg.font.Font('freesansbold.ttf', 12)
+        text = font.render('500', True, black)
+        tbox = text.get_rect()
+        tbox.center = (pos_x, pos_y)
+        pyg.draw.rect(map_surface, yellow,
+                            (pos_x-radius, pos_y-radius/2, radius*2, radius))
+        map_surface.blit(text, tbox)
+
 
     def get_node_count(self):
         return len(self.nodes)

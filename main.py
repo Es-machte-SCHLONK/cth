@@ -22,8 +22,8 @@ class Game:
             elif event.type == pyg.KEYDOWN:
                 if event.key == pyg.K_ESCAPE:
                     self.running = False
-                if event.key == pyg.K_SPACE:
-                    self.maps.draw_map_surface(10)
+                #if event.key == pyg.K_SPACE:
+                    #self.maps.draw_map_surface(10)
             elif event.type == pyg.VIDEORESIZE:
                 self.root_width, self.root_height = event.size
                 self.root = pyg.display.set_mode((self.root_width, self.root_height), pyg.RESIZABLE)

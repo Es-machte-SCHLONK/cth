@@ -7,7 +7,7 @@ class Node:
         self.green = bool(green)
         self.red = bool(red)
         self.black = False
-        self.node_size = 8
+        self.node_size = 5
         self.x = 0
         self.y = 0
 
