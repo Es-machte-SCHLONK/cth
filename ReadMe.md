@@ -13,6 +13,7 @@
 - [Arbeitsteilung](#arbeitsteilung)
   - [Fragmente](#fragmenteaufgaben-)
   - [Aufteilung](#aufteilung)
+- [Mockup GUI](#mockup-gui)
 
 ## Die Idee:
 Ich mag das Spiel Scotland Yard. Es kommt auf Taktik, Kombinatorik und ein bisschen Glück an.
@@ -124,3 +125,8 @@ oder können die Detektive nicht mehr ziehen, hat X gewonnen.
 |--------------|--------|--------|
 | A            | B      | C      |
 | A1           | B1     | C1     |
+
+
+# Mockup GUI
+
+![Diagram](Mocup.drawio.svg)
