@@ -1,5 +1,5 @@
 import pygame as pyg
-from cth.lib.map_surface import nodelist as nl
+from lib.map_surface import nodelist as nl
 
 
 class Maps:

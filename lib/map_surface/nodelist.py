@@ -1,7 +1,7 @@
 import random
 import datetime
 import pygame as pyg
-from cth.lib.map_surface import nodes
+from lib.map_surface import nodes
 
 
 class NodeList:
