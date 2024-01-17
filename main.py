@@ -1,8 +1,7 @@
 import pygame as pyg
-from cth.lib.map_surface import map_surface as mas
-from cth.lib.players_surface import players_surface as pls
-from cth.lib.actions_surface import actions_surface as acs
-
+from lib.map_surface import map_surface as mas
+from lib.players_surface import players_surface as pls
+from lib.actions_surface import actions_surface as acs
 
 class Game:
     def __init__(self):
