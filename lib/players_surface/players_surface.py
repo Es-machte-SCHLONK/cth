@@ -1,5 +1,3 @@
-import sys
-
 import pygame as pyg
 
 from lib.players_surface.Player import Player
@@ -12,9 +10,12 @@ class PlayerUI:
         self.surface = None
         self.root_height = root_screen.get_height()
         self.root_width = root_screen.get_width()
-        self.init_surface()
         self.players = []
+        self.players.append(Player("Hans", (150, 150, 150)))
+        self.players.append(Player("Hilde", (150, 50, 200)))
+        self.players.append(Player("Günther", (50, 150, 200)))
         self.player_rect_size = 50
+        self.init_surface()
 
     def init_surface(self):
         self.surface = pyg.Surface(
@@ -38,21 +39,16 @@ class PlayerUI:
         pass
 
     def draw_players(self):
-        # Hier zeichnest du die Spieler auf das Fenster
+        surface_width = self.surface.get_width()
+        surface_height = self.surface.get_height()
         if self.players:
             player_rect_x = 50
-            player_rect_y = 50
-
+            player_rect_y = 60
+            font = pyg.font.SysFont("arial bold", 18)
             for player in self.players:
+                player_name = font.render(player.name, True, (0, 0, 0))
+
                 pyg.draw.rect(self.surface, player.color, (player_rect_x, player_rect_y, self.player_rect_size,
                                                            self.player_rect_size))
-                player_rect_x += 100  # Abstand zwischen den Spieler-Rechtecken
-
-    # In main ?
-
-
-if __name__ == "__main__":
-    player_ui = PlayerUI()
-    player_ui.add_player("Player 1", (255, 0, 0))
-    player_ui.add_player("Player 2", (0, 255, 0))
-    player_ui.add_player("Player 3", (0, 0, 255))
+                self.surface.blit(player_name, player_name.get_rect(topleft=(player_rect_x + 1, player_rect_y + 10)))
+                player_rect_x += (30 + self.player_rect_size)  # Abstand zwischen den Spieler-Rechtecken"""

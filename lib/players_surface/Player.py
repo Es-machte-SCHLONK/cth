@@ -3,9 +3,9 @@ import pygame as pyg
 
 
 class Player:
-    def __init__(self, name, color):
+    def __init__(self, name, color=(255, 255, 255)):
         self._name = name
-        self._color = None
+        self._color = color
         self._current_position = 0
         self._yellow = 10
         self._green = 5
