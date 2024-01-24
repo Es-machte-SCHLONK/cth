@@ -1,3 +1,4 @@
+import math
 from math import floor
 
 import pygame as pyg
@@ -18,6 +19,7 @@ class Node:
         self.yellow = False
         self.color = (255, 255, 255)
         self.neighbours = []
+
 
     def set_color(self):
         if self.red:
@@ -56,6 +58,44 @@ class Map:
         surface = pyg.Surface((root_screen.get_width(), (int(root_screen.get_height() * 0.8))))
         surface.fill(self.map_color)
         return surface
+
+    def get_distance(self, pos_xy_1, pos_xy_2):
+        x1, y1 = pos_xy_1
+        x2, y2 = pos_xy_2
+        distance = math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)
+        return distance
+
+    def select_node(self, position):
+        selected_node = self.node_positions[position]
+        self.draw_nodes()
+        font = pyg.font.SysFont("arial bold", 16)
+
+        number = font.render(str(selected_node.number), True, selected_node.color)
+        pyg.draw.circle(self.surface, (2, 18, 115), selected_node.position, 10)
+        self.surface.blit(number, number.get_rect(center=selected_node.position))
+
+    def set_player_position(self, old_position, new_position, player_color=(255, 61, 242)):
+        selected_node = self.node_positions[new_position]
+        pyg.draw.circle(self.surface, player_color, selected_node.position, 20)
+        pyg.draw.circle(self.surface, self.map_color, old_position, 25)
+        self.draw_nodes()
+
+    def select_edge(self, pos_start, pos_end):
+        source_node = self.node_positions[pos_start]
+        pos_end_neighbour = -1
+        for i in range(0, len(source_node.neighbours)):
+            if source_node.neighbours[i].position == pos_end:
+                pos_end_neighbour = i
+
+        if pos_end_neighbour >= 0:
+            destination_node = source_node.neighbours[pos_end_neighbour]
+            self.draw_edges()
+            pyg.draw.line(self.surface, (2, 18, 115), source_node.position, destination_node.position, 2)
+            self.select_node(destination_node.position)
+        else:
+            print("pos_end: "+str(pos_end))
+            print("selected node neighbours: " + str(source_node.neighbours))
+            print("Node not in reach! Select another node in with direct connection!")
 
     def add_red_nodes(self):
         # red_node northwest

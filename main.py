@@ -3,6 +3,7 @@ from lib.map_surface import map_surface as mas
 from lib.players_surface import players_surface as pls
 from lib.actions_surface import actions_surface as acs
 
+
 class Game:
     def __init__(self):
         pyg.init()
@@ -13,6 +14,7 @@ class Game:
         self.map = mas.Map(self.root)
         self.players = pls.Players(self.root)
         self.actions = acs.Actions(self.root)
+        self.selected_position = None  # set on left click
 
     def handle_events(self):
         for event in pyg.event.get():
@@ -21,8 +23,26 @@ class Game:
             elif event.type == pyg.KEYDOWN:
                 if event.key == pyg.K_ESCAPE:
                     self.running = False
-                #if event.key == pyg.K_SPACE:
-                    #self.maps.draw_map_surface(10)
+            elif event.type == pyg.MOUSEBUTTONDOWN and event.button == 1:  # left click to select node
+                click_pos = event.pos
+                selected_position = min(self.map.node_positions.keys(), key=lambda pos_xy: self.map.get_distance(
+                    pos_xy, click_pos))
+                self.map.select_node(selected_position)
+                self.selected_position = selected_position
+            elif event.type == pyg.MOUSEBUTTONDOWN and event.button == 4:  # scroll up to test edge selection
+                click_pos = event.pos
+                selected_position = min(self.map.node_positions.keys(), key=lambda pos_xy: self.map.get_distance(
+                    pos_xy, click_pos))
+                if self.selected_position is not None:
+                    self.map.select_edge(self.selected_position, selected_position)
+                else:
+                    print("First select start node with left click")
+            elif event.type == pyg.MOUSEBUTTONDOWN and event.button == 3:  # right click to select player position
+                click_pos = event.pos
+                selected_position = min(self.map.node_positions.keys(), key=lambda pos_xy: self.map.get_distance(
+                    pos_xy, click_pos))
+                old_position = (30, 30)
+                self.map.set_player_position(old_position, selected_position, (255, 61, 242))
             elif event.type == pyg.VIDEORESIZE:
                 self.root_width, self.root_height = event.size
                 self.root = pyg.display.set_mode((self.root_width, self.root_height), pyg.RESIZABLE)
