@@ -1,3 +1,5 @@
+from math import floor
+
 import pygame as pyg
 
 from lib.players_surface.Player import Player
@@ -11,9 +13,11 @@ class PlayerUI:
         self.root_height = root_screen.get_height()
         self.root_width = root_screen.get_width()
         self.players = []
-        self.players.append(Player("Hans", (150, 150, 150)))
-        self.players.append(Player("Hilde", (150, 50, 200)))
-        self.players.append(Player("Günther", (50, 150, 200)))
+        self.players.append(Player("Player 1", (218, 66, 245)))
+        self.players.append(Player("Player 2", (66, 245, 194)))
+        self.players.append(Player("Player 3", (245, 138, 66)))
+        self.players.append(Player("Player 4", (217, 247, 119)))
+        self.players.append(Player("Lady X", (191, 191, 191)))
         self.player_rect_size = 50
         self.init_surface()
 
@@ -39,16 +43,22 @@ class PlayerUI:
         pass
 
     def draw_players(self):
+        print("Player Surface w,h: " + str(self.surface.get_width()) + ", " + str(self.surface.get_height()))
         surface_width = self.surface.get_width()
         surface_height = self.surface.get_height()
+        player_card_spacing = 15
+        player_card_width = floor((surface_width - (6 * player_card_spacing)) / 5)
+        player_card_height = floor(surface_height * 0.8)
+        print(player_card_width)
         if self.players:
-            player_rect_x = 50
-            player_rect_y = 60
-            font = pyg.font.SysFont("arial bold", 18)
+            player_rect_x = player_card_spacing
+            font = pyg.font.SysFont("arial bold", 20)
             for player in self.players:
                 player_name = font.render(player.name, True, (0, 0, 0))
-
-                pyg.draw.rect(self.surface, player.color, (player_rect_x, player_rect_y, self.player_rect_size,
-                                                           self.player_rect_size))
-                self.surface.blit(player_name, player_name.get_rect(topleft=(player_rect_x + 1, player_rect_y + 10)))
-                player_rect_x += (30 + self.player_rect_size)  # Abstand zwischen den Spieler-Rechtecken"""
+                pyg.draw.rect(self.surface, (40, 40, 40),
+                              (player_rect_x + 3, 15 + 3, player_card_width, player_card_height),
+                              0, 10)
+                pyg.draw.rect(self.surface, player.color, (player_rect_x, 15, player_card_width,
+                                                           player_card_height), 0, 10)
+                self.surface.blit(player_name, player_name.get_rect(center=(player_rect_x + (player_card_width//2), 30)))
+                player_rect_x += (player_card_spacing + player_card_width)  # Abstand zwischen den Spieler-Rechtecken"""
