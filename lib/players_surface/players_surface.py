@@ -8,7 +8,7 @@ from lib.players_surface.Player import Player
 class PlayerUI:
 
     def __init__(self, root_screen):
-        self.color = (0, 100, 0)
+        self.color = (34, 34, 34)
         self.surface = None
         self.root_height = root_screen.get_height()
         self.root_width = root_screen.get_width()
@@ -53,10 +53,13 @@ class PlayerUI:
             font = pyg.font.SysFont("arial bold", 20)
             for player in self.players:
                 player_name = font.render(player.name, True, (0, 0, 0))
-                pyg.draw.rect(self.surface, (40, 40, 40),
+                # Schatten
+                pyg.draw.rect(self.surface, (10,10,10),
                               (player_rect_x + 3, 15 + 3, player_card_width, player_card_height),
                               0, 10)
+                # Karte
                 pyg.draw.rect(self.surface, player.color, (player_rect_x, 15, player_card_width,
                                                            player_card_height), 0, 10)
+                # Text
                 self.surface.blit(player_name, player_name.get_rect(center=(player_rect_x + (player_card_width//2), 30)))
                 player_rect_x += (player_card_spacing + player_card_width)  # Abstand zwischen den Spieler-Rechtecken"""
