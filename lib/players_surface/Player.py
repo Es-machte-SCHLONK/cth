@@ -1,9 +1,11 @@
 # class for Player Information
+import pygame as pyg
+
 
 class Player:
-    def __init__(self, name):
+    def __init__(self, name, color):
         self._name = name
-        self._color = ""
+        self._color = None
         self._current_position = 0
         self._yellow = 10
         self._green = 5
@@ -56,6 +58,3 @@ class Player:
     @yellow.setter
     def yellow(self, value):
         self._yellow = value
-
-
-

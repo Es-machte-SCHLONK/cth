@@ -3,6 +3,7 @@ from lib.map_surface import map_surface as mas
 from lib.players_surface import players_surface as pls
 from lib.actions_surface import actions_surface as acs
 
+
 class Game:
     def __init__(self):
         pyg.init()
@@ -11,7 +12,7 @@ class Game:
         self.root = pyg.display.set_mode((self.root_width, self.root_height), pyg.RESIZABLE)
         self.running = True
         self.maps = mas.Maps(self.root)
-        self.players = pls.Players(self.root)
+        self.players = pls.PlayerUI(self.root)
         self.actions = acs.Actions(self.root)
 
     def handle_events(self):
@@ -21,8 +22,8 @@ class Game:
             elif event.type == pyg.KEYDOWN:
                 if event.key == pyg.K_ESCAPE:
                     self.running = False
-                #if event.key == pyg.K_SPACE:
-                    #self.maps.draw_map_surface(10)
+                # if event.key == pyg.K_SPACE:
+                # self.maps.draw_map_surface(10)
             elif event.type == pyg.VIDEORESIZE:
                 self.root_width, self.root_height = event.size
                 self.root = pyg.display.set_mode((self.root_width, self.root_height), pyg.RESIZABLE)
