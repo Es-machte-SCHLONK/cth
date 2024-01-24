@@ -43,13 +43,11 @@ class PlayerUI:
         pass
 
     def draw_players(self):
-        print("Player Surface w,h: " + str(self.surface.get_width()) + ", " + str(self.surface.get_height()))
         surface_width = self.surface.get_width()
         surface_height = self.surface.get_height()
         player_card_spacing = 15
         player_card_width = floor((surface_width - (6 * player_card_spacing)) / 5)
         player_card_height = floor(surface_height * 0.8)
-        print(player_card_width)
         if self.players:
             player_rect_x = player_card_spacing
             font = pyg.font.SysFont("arial bold", 20)
