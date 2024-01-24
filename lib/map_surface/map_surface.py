@@ -20,7 +20,6 @@ class Node:
         self.color = (255, 255, 255)
         self.neighbours = []
 
-
     def set_color(self):
         if self.red:
             self.color = (255, 107, 97)
@@ -93,7 +92,7 @@ class Map:
             pyg.draw.line(self.surface, (2, 18, 115), source_node.position, destination_node.position, 2)
             self.select_node(destination_node.position)
         else:
-            print("pos_end: "+str(pos_end))
+            print("pos_end: " + str(pos_end))
             print("selected node neighbours: " + str(source_node.neighbours))
             print("Node not in reach! Select another node in with direct connection!")
 
@@ -416,13 +415,12 @@ class Map:
             self.surface.blit(number, number.get_rect(center=n.position))
 
     def draw_edges(self):
-        for n in self.red_nodes:
+
+        for n in self.yellow_nodes:
+            edge_color = n.color
             for nb in n.neighbours:
-                if nb.green | nb.yellow:
-                    edge_color = nb.color
-                else:
-                    edge_color = n.color
                 pyg.draw.line(self.surface, edge_color, n.position, nb.position, 2)
+
         for n in self.green_nodes:
             for nb in n.neighbours:
                 if nb.yellow:
@@ -430,7 +428,10 @@ class Map:
                 else:
                     edge_color = n.color
                 pyg.draw.line(self.surface, edge_color, n.position, nb.position, 2)
-        for n in self.yellow_nodes:
-            edge_color = n.color
+        for n in self.red_nodes:
             for nb in n.neighbours:
+                if nb.green | nb.yellow:
+                    edge_color = nb.color
+                else:
+                    edge_color = n.color
                 pyg.draw.line(self.surface, edge_color, n.position, nb.position, 2)

@@ -6,6 +6,7 @@ from lib.players_surface.Player import Player
 from lib.players_surface.players_surface import PlayerUI
 
 
+
 class PlayerConfigUI:
     def __init__(self):
         self.players = []
