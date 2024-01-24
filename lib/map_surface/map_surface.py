@@ -1,14 +1,14 @@
 from math import floor
-from random import randrange
 
 import pygame as pyg
-
 
 """
 SORRY, 2 Tage dran gesessen eine dynamische Karte zu erstellen und auswertbar zu machen.
 Letztendlich hat die Erstellung zwar geklappt, die Spielbarkeit konnte aber nicht garantiert werden.
 Daher habe ich aufgegeben und mit viel Pfusch die Map statisch gecoded.
 """
+
+
 class Node:
     def __init__(self):
         self.number = None
@@ -195,7 +195,7 @@ class Map:
 
         def yellow_node(count_i, count_j):
             node = Node()
-            node.position = ((count_i + 1) * col_width, (count_j + 1) * row_height-51)
+            node.position = ((count_i + 1) * col_width, (count_j + 1) * row_height - 51)
             node.yellow = True
             self.node_count += 1
             node.number = self.node_count
@@ -377,18 +377,18 @@ class Map:
 
     def draw_edges(self):
         for n in self.red_nodes:
-            edge_color = n.color
             for nb in n.neighbours:
                 if nb.green | nb.yellow:
                     edge_color = nb.color
-                else: edge_color = n.color
+                else:
+                    edge_color = n.color
                 pyg.draw.line(self.surface, edge_color, n.position, nb.position, 2)
         for n in self.green_nodes:
-            edge_color = n.color
             for nb in n.neighbours:
                 if nb.yellow:
                     edge_color = nb.color
-                else: edge_color = n.color
+                else:
+                    edge_color = n.color
                 pyg.draw.line(self.surface, edge_color, n.position, nb.position, 2)
         for n in self.yellow_nodes:
             edge_color = n.color
