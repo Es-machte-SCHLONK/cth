@@ -3,7 +3,6 @@ from lib.map_surface import map_surface as mas
 from lib.players_surface import players_surface as pls
 from lib.actions_surface import actions_surface as acs
 
-
 class Game:
     def __init__(self):
         pyg.init()
@@ -12,7 +11,7 @@ class Game:
         self.root = pyg.display.set_mode((self.root_width, self.root_height), pyg.RESIZABLE)
         self.running = True
         self.map = mas.Map(self.root)
-        self.players = pls.Players(self.root)
+        self.players = pls.PlayerUI(self.root)
         self.actions = acs.Actions(self.root)
         self.selected_position = None  # set on left click
 
@@ -46,18 +45,18 @@ class Game:
             elif event.type == pyg.VIDEORESIZE:
                 self.root_width, self.root_height = event.size
                 self.root = pyg.display.set_mode((self.root_width, self.root_height), pyg.RESIZABLE)
-                self.map.__init__(self.root)
+                self.maps.__init__(self.root)
                 self.players.__init__(self.root)
                 self.actions.__init__(self.root)
 
     def render(self):
-        self.root.blit(self.map.surface, (0, 0))
+        self.root.blit(self.maps.surface, (0, 0))
         self.root.blit(
-            self.players.surface, (0, self.map.surface.get_height())
+            self.players.surface, (0, self.maps.surface.get_height())
         )
         self.root.blit(
             self.actions.surface,
-            (self.players.surface.get_width(), self.map.surface.get_height())
+            (self.players.surface.get_width(), self.maps.surface.get_height())
         )
 
     def run(self):
