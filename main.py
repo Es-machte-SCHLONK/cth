@@ -73,7 +73,7 @@ class Game:
         else:
             self.root.blit(
                 self.config.surface,
-                (self.config.surface.get_width(), self.map.surface.get_height())
+                (0, 0)
             )
 
     def run(self):

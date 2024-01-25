@@ -23,6 +23,7 @@ class PlayerConfigUI:
         self.bg_color = (255, 255, 255)
         self.input_box_color = (200, 200, 200)
         self.font = pyg.font.Font(None, 32)
+        self.draw_menu()
 
     def init_surface(self, root_screen):
         surface = pyg.Surface((root_screen.get_width(), root_screen.get_height()))
@@ -40,18 +41,21 @@ class PlayerConfigUI:
                            height=600,
                            theme=pm.themes.THEME_GREEN)
 
-        # Settings button. If clicked, it takes to the settings menu
-        mainMenu.add.button(title="Settings", font_color=WHITE,
-                            background_color=GREEN)
+        mainMenu.add.text_input(title="User Name : ", textinput_id="username")
 
-        # Dummy label to add some spacing between the settings button and exit button
-        mainMenu.add.label(title="")
+        mainMenu.add.text_input(title="")
 
+        mainMenu.add.button(title="Create", action=self.createPlayer(mainMenu),
+                            font_color=WHITE, background_color=RED)
+
+        mainMenu.draw(self.surface)
+        """
         # Exit Button. If clicked, it closes the window
         settings = pm.Menu(title="Settings",
                            width=800,
                            height=500,
                            theme=pm.themes.THEME_GREEN)
+        
 
         mainMenu.add.button(title="Exit", action=self.leave_config(),
                             font_color=WHITE, background_color=RED)
@@ -70,15 +74,17 @@ class PlayerConfigUI:
         # Drop-downs to select the color
         settings.add.dropselect(title="Select Color", items=colors,
                                 dropselect_id="color", default=0)
+        mainMenu.draw(self.surface)
+"""
 
     def createPlayer(self, settings):
         # getting the data using "get_input_data" method of the Menu class
         settingsData = settings.get_input_data()
 
         username = settingsData["username"]
-        color = settingsData["color"]
-
-        PlayerUI.add_player(name=username, color=color)
+        #color = settingsData["color"]
+        #PlayerUI.add_player(name=username)
+        #PlayerUI.add_player(name=username, color=color)
         self.created_player = self.created_player + 1
         if self.created_player == self.max_players:
             self.leave_config()
