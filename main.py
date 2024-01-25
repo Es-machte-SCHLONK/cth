@@ -43,11 +43,12 @@ class Game:
                         selected_position = min(self.map.node_positions.keys(),
                                                 key=lambda pos_xy: self.map.get_distance(pos_xy, click_pos))
                         #get player on turn
+                        active_player = None
                         for player in self.players.players:
                             if player.on_turn:
                                 active_player = player
                         self.selected_position = selected_position
-                        self.map.select_edge(self.selected_position, selected_position)
+                        self.map.select_edge(active_player.current_position, selected_position)
                     elif (click_pos[0] <= self.players.surface.get_width()) and (
                             click_pos[1] >= self.map.surface.get_height()):
                         print("Click in player surface: " + str(click_pos))
@@ -97,24 +98,23 @@ class Game:
         for player in self.players.players:
             position_valid = False
             while not position_valid:
-                temp_position = random.choice(list(self.map.node_positions.values()))
+                temp_position = random.choice(list(self.map.node_positions.keys()))
                 if temp_position not in existing_positions:
                     player.current_position = temp_position
                     position_valid = True
 
     def init_players(self):
         self.players.add_player("Hunter1", (218, 66, 245))
-        print("Player 1 initialisiert.")
         self.players.add_player("Hunter2", (66, 245, 194))
-        print("Player 2 initialisiert.")
         self.players.add_player("Hunter3", (245, 138, 66))
-        print("Player 3 initialisiert.")
         self.players.add_player("Hunter4", (217, 247, 119))
-        print("Player 4 initialisiert.")
         self.players.add_player("LadyX", (191, 191, 191), True)
-        print("Lady X initialisiert.")
         self.set_random_position()
-
+        print("Player 1 initialisiert. " + str(self.map.node_positions[self.players.players[0].current_position].number))
+        print("Player 2 initialisiert. " + str(self.players.players[1].current_position))
+        print("Player 3 initialisiert. " + str(self.players.players[2].current_position))
+        print("Player 4 initialisiert. " + str(self.players.players[3].current_position))
+        print("Lady X initialisiert. " + str(self.players.players[4].current_position))
         self.players.init_surface()
 
 
