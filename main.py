@@ -211,7 +211,8 @@ class Game:
         self.players.players[index].current_position = self.selected_position
         self.players.players[index].on_turn = False
         self.players.players[new_index].on_turn = True
-        self.map.init_surface(self.root)
+        self.map.draw_edges()
+        self.map.draw_nodes()
         self.players.init_surface()
 
 
