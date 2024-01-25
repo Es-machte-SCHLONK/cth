@@ -25,7 +25,8 @@ class Game:
         self.players = pls.PlayerUI(self.root)
         self.actions = acs.Actions(self.root)
         self.init_players()
-        self.selected_position = None  # set on left click
+        self.selected_position = None# set on left click
+        self.action_needed = None
 
     def handle_events(self):
         if self.config.config_running:
@@ -62,18 +63,19 @@ class Game:
                             if current_node.yellow or destination_node.yellow:
                                 if active_player.yellow > 0:
                                     print("Go Yellow")
+                                    self.action_needed = "y"
                                     self.selected_position = selected_position
                                     self.actions.draw_turn_button(True)
 
                             elif current_node.green or destination_node.green:
                                 if active_player.green > 0:
-                                    print("Go Green")
+                                    self.action_needed = "g"
                                     self.selected_position = selected_position
                                     self.actions.draw_turn_button(True)
 
                             else:
                                 if active_player.red > 0:
-                                    print("Go Red")
+                                    self.action_needed = "r"
                                     self.selected_position = selected_position
                                     self.actions.draw_turn_button(True)
                         else:
@@ -96,6 +98,7 @@ class Game:
                         if (end_turn_start_position_x <= click_pos[0] <= end_turn_end_position_x) and (
                                 end_turn_start_position_y <= click_pos[1] <= end_turn_end_position_y):
                             if self.selected_position:
+                                self.changePlayer()
                                 print("end turn clicked")
                             """
                                 active_player_index = None
@@ -196,18 +199,16 @@ class Game:
             if player.on_turn:
                 active_player = player
         index = self.players.players.index(active_player)
-        print(str(index))
         if index == 3:
             neighbours = self.map.node_positions[self.players.players[4].current_position].neighbours
             new_x_position = estimate_move(player_positions, neighbours)
             self.players.players[4].current_position = new_x_position
-            new_index = 1
+            new_index = 0
         else:
             new_index = index + 1
-        print(str(new_index))
+
         self.players.players[index].on_turn = False
         self.players.players[new_index].on_turn = True
-
         self.players.init_surface()
 
 
