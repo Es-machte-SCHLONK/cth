@@ -226,10 +226,6 @@ class Game:
         self.map.draw_nodes()
         self.players.init_surface()
 
-
-
-
-
 if __name__ == "__main__":
     game = Game()
     game.run()
