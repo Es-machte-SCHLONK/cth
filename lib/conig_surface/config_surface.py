@@ -16,7 +16,7 @@ class PlayerConfigUI:
     def __init__(self, root_screen):
         self.created_player = 0
         self.max_players = 4
-        self.config_running = True
+        self.config_running = False
 
         # Fenstergröße und Farben
         self.surface = self.init_surface(root_screen)
