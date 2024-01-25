@@ -1,6 +1,7 @@
 from math import floor
 
 import pygame as pyg
+import lib.players_surface.Player as player
 
 
 class LadyX_tracker:
@@ -24,6 +25,8 @@ class Actions:
         self.init_surface()
         self.generate_x_counters()
         self.draw_x_counters()
+        test_player = player.Player("Hans")
+        self.draw_player_state(test_player)
 
     def init_surface(self):
         self.surface = pyg.Surface(
@@ -69,7 +72,6 @@ class Actions:
             tracker.center = (floor(col_width * 1.5 * col_counter),
                               floor(row_height * 2 * row_counter))
 
-
             # shadow
             pyg.draw.circle(self.surface, (10, 10, 10), (tracker.center[0] + 2, tracker.center[1] + 2), 10)
             # background
@@ -83,9 +85,51 @@ class Actions:
                 pyg.draw.circle(self.surface, (105, 0, 0), tracker.center, 10, 2)
             else:
                 number = font.render(str(counter), True, (220, 220, 220))
-                # outline red
+                # outline normal
                 pyg.draw.circle(self.surface, (150, 150, 150), tracker.center, 10, 2)
             self.surface.blit(number_shadow, number.get_rect(
-                center=(tracker.center[0] - floor(col_width * 0.75)+2, tracker.center[1]+2)))
+                center=(tracker.center[0] - floor(col_width * 0.75) + 2, tracker.center[1] + 2)))
             self.surface.blit(number, number.get_rect(
-                    center=(tracker.center[0] - floor(col_width * 0.75), tracker.center[1])))
+                center=(tracker.center[0] - floor(col_width * 0.75), tracker.center[1])))
+
+    def draw_player_state(self, player):
+        col_width = floor(self.surface.get_width() / 2 / 7)
+        row_height = floor(self.surface.get_height() / 2 / 7)
+        font = pyg.font.SysFont("arial bold", 24)
+        player_name_text = font.render(player.name, True, (220, 220, 220))
+        self.surface.blit(player_name_text, player_name_text.get_rect(
+            center=(floor(col_width * 7.5), row_height * 2)))
+        font = pyg.font.SysFont("arial bold", 20)
+        tickets_headline = font.render("Actions:", True, (220, 220, 220))
+        self.surface.blit(tickets_headline, player_name_text.get_rect(
+            center=(floor(col_width * 7.5), row_height * 5)))
+
+        font = pyg.font.SysFont("arial bold", 20)
+
+
+
+
+        #yellow
+        yellow = font.render(player.yellow.__str__(), True, (0, 0, 0))
+        pyg.draw.circle(self.surface, (10, 10, 10), (col_width * 8+3, row_height * 9+3), 20)
+        pyg.draw.circle(self.surface, (255, 250, 97), (col_width * 8, row_height * 9), 20)
+        pyg.draw.circle(self.surface, (15, 15, 15), (col_width * 8, row_height * 9), 20, 3)
+        pyg.draw.circle(self.surface, (150, 150, 150), (col_width * 8, row_height * 9), 20, 2)
+        self.surface.blit(yellow, yellow.get_rect(
+            center=(col_width * 8, row_height * 9)))
+        #green
+        green = font.render(player.green.__str__(), True, (0, 0, 0))
+        pyg.draw.circle(self.surface, (10, 10, 10), (col_width * 10+3, row_height * 9+3), 20)
+        pyg.draw.circle(self.surface, (66, 219, 73), (col_width * 10, row_height * 9), 20)
+        pyg.draw.circle(self.surface, (15, 15, 15), (col_width * 10, row_height * 9), 20, 3)
+        pyg.draw.circle(self.surface, (150, 150, 150), (col_width * 10, row_height * 9), 20, 2)
+        self.surface.blit(green, yellow.get_rect(
+            center=(col_width * 10.05, row_height * 9)))
+        #red
+        red = font.render(player.red.__str__(), True, (0, 0, 0))
+        pyg.draw.circle(self.surface, (10, 10, 10), (col_width * 12+3, row_height * 9+3), 20)
+        pyg.draw.circle(self.surface, (255, 107, 97), (col_width * 12, row_height * 9), 20)
+        pyg.draw.circle(self.surface, (15, 15, 15), (col_width * 12, row_height * 9), 20, 3)
+        pyg.draw.circle(self.surface, (150, 150, 150), (col_width * 12, row_height * 9), 20, 2)
+        self.surface.blit(red, yellow.get_rect(
+            center=(col_width * 12.05, row_height * 9)))

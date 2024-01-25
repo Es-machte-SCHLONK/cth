@@ -4,7 +4,6 @@ import pygame as pyg
 
 from lib.players_surface.Player import Player
 
-
 class PlayerUI:
 
     def __init__(self, root_screen):

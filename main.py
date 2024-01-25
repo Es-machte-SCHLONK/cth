@@ -7,9 +7,13 @@ from lib.actions_surface import actions_surface as acs
 class Game:
     def __init__(self):
         pyg.init()
+        pyg.display.set_caption('CTH - Catch The Hacker')
+        icon = pyg.image.load('cth/lib/icon.png')
+        pyg.display.set_icon(icon)
         self.root_width = 1024
         self.root_height = 768
         self.root = pyg.display.set_mode((self.root_width, self.root_height), pyg.RESIZABLE)
+
         self.running = True
         self.map = mas.Map(self.root)
         self.players = pls.PlayerUI(self.root)
