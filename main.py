@@ -95,6 +95,8 @@ class Game:
                         if (end_turn_start_position_x <= click_pos[0] <= end_turn_end_position_x) and (
                                 end_turn_start_position_y <= click_pos[1] <= end_turn_end_position_y):
                             if self.selected_position:
+                                print("end turn clicked")
+                            """
                                 active_player_index = None
                                 counter = -1
                                 active_player = None
@@ -105,15 +107,21 @@ class Game:
                                         active_player = player
                                         current_position = player.current_position
                                         active_player_index = counter
+
                                 if active_player_index == (len(self.players.players) - 1):
+                                    print("LadyX?")
                                     print("Players Turn: " + self.players.players[0].name)
                                     self.players.players[0].on_turn = True
-                                    self.players.players[active_player_index] = False
+                                    self.players.players[active_player_index].on_turn = False
                                 else:
                                     print("Players Turn: " + self.players.players[active_player_index + 1].name)
                                     self.players.players[active_player_index + 1].on_turn = True
-                                    self.players.players[active_player_index] = False
+                                    self.players.players[active_player_index].on_turn = False
+                            else:
+                                print("Button-Not-Active")#Skip player
+                            """
                             self.actions.draw_turn_button(False)
+                            self.players.init_surface()
 
 
                 elif event.type == pyg.VIDEORESIZE:

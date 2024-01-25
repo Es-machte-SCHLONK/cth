@@ -139,10 +139,8 @@ class Actions:
         button_width = col_width * 2.5
         button_height = row_height * 4
         if active:
-            print("active")
             button_color = (6, 48, 18)
         else:
-            print("not active")
             button_color = (48, 6, 6)
 
         button_text = "End Turn"
