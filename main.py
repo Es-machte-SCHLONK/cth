@@ -4,7 +4,7 @@ import pygame as pyg
 from lib.map_surface import map_surface as mas
 from lib.players_surface import players_surface as pls
 from lib.actions_surface import actions_surface as acs
-from lib.conig_surface import config_surface as cfg
+from lib.config_surface import config_surface as cfg
 
 
 class Game:
@@ -39,13 +39,20 @@ class Game:
                 elif event.type == pyg.MOUSEBUTTONDOWN and event.button == 1:  # left click to select node
                     click_pos = event.pos
                     if (click_pos[0] <= self.map.surface.get_width()) and (click_pos[1] <=
-                                                                               self.map.surface.get_height()):
-                        selected_position = min(self.map.node_positions.keys(),key=lambda pos_xy: self.map.get_distance(pos_xy, click_pos))
+                                                                           self.map.surface.get_height()):
+                        selected_position = min(self.map.node_positions.keys(),
+                                                key=lambda pos_xy: self.map.get_distance(pos_xy, click_pos))
+                        #get player on turn
+                        for player in self.players.players:
+                            if player.on_turn:
+                                active_player = player
                         self.selected_position = selected_position
                         self.map.select_edge(self.selected_position, selected_position)
-                    elif (click_pos[0] <= self.players.surface.get_width()) and (click_pos[1] >= self.map.surface.get_height()):
+                    elif (click_pos[0] <= self.players.surface.get_width()) and (
+                            click_pos[1] >= self.map.surface.get_height()):
                         print("Click in player surface: " + str(click_pos))
-                    elif (click_pos[0] >= self.players.surface.get_width()) and (click_pos[1] >= self.map.surface.get_height()):
+                    elif (click_pos[0] >= self.players.surface.get_width()) and (
+                            click_pos[1] >= self.map.surface.get_height()):
                         print("Click in action surface: " + str(click_pos))
                 elif event.type == pyg.MOUSEBUTTONDOWN and event.button == 3:  # right click to select player position
                     click_pos = event.pos
