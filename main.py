@@ -1,10 +1,12 @@
 import random
+from time import sleep
 
 import pygame as pyg
 from lib.map_surface import map_surface as mas
 from lib.players_surface import players_surface as pls
 from lib.actions_surface import actions_surface as acs
 from lib.config_surface import config_surface as cfg
+from lib.x_controls.xcontroller import estimate_move
 
 
 class Game:
@@ -107,12 +109,32 @@ class Game:
         for player in self.players.players:
             if not player.ladyX:
                 self.map.set_player_position(player.current_position, player.current_position, player.color)
-        print("Player 1 initialisiert. " + str(self.map.node_positions[self.players.players[0].current_position].number))
-        print("Player 2 initialisiert. " + str(self.map.node_positions[self.players.players[1].current_position].number))
-        print("Player 3 initialisiert. " + str(self.map.node_positions[self.players.players[2].current_position].number))
-        print("Player 4 initialisiert. " + str(self.map.node_positions[self.players.players[3].current_position].number))
-        print("Lady X initialisiert. " + str(self.map.node_positions[self.players.players[4].current_position].number))
+
         self.players.init_surface()
+
+    def changePlayer(self):
+        active_player = None
+        player_positions = []
+        for player in self.players.players:
+            player_positions.append(player.current_position)
+            if player.on_turn:
+                active_player = player
+        index = self.players.players.index(active_player)
+        print(str(index))
+        if index == 3:
+            neighbours = self.map.node_positions[self.players.players[4].current_position].neighbours
+            new_x_position = estimate_move(player_positions, neighbours)
+            self.players.players[4].current_position = new_x_position
+            new_index = 1
+        else:
+            new_index = index + 1
+        print(str(new_index))
+        self.players.players[index].on_turn = False
+        self.players.players[new_index].on_turn = True
+        self.players.init_surface()
+
+
+
 
 
 if __name__ == "__main__":
