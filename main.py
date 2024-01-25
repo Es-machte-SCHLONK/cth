@@ -23,48 +23,53 @@ class Game:
         self.selected_position = None  # set on left click
 
     def handle_events(self):
-        for event in pyg.event.get():
-            if event.type == pyg.QUIT:
-                self.running = False
-            elif event.type == pyg.KEYDOWN:
-                if event.key == pyg.K_ESCAPE:
+        if self.config.config_running:
+            print("config")
+            # Settings window
+        else:
+            for event in pyg.event.get():
+                if event.type == pyg.QUIT:
                     self.running = False
-            elif event.type == pyg.MOUSEBUTTONDOWN and event.button == 1:  # left click to select node
-                if not self.config.config_running:
+                elif event.type == pyg.KEYDOWN:
+                    if event.key == pyg.K_ESCAPE:
+                        self.running = False
+                elif event.type == pyg.MOUSEBUTTONDOWN and event.button == 1:  # left click to select node
+                    if not self.config.config_running:
+                        click_pos = event.pos
+                        if (click_pos[0] <= self.map.surface.get_width()) and (
+                                click_pos[1] <= self.map.surface.get_height()):
+                            selected_position = min(self.map.node_positions.keys(),
+                                                    key=lambda pos_xy: self.map.get_distance(
+                                                        pos_xy, click_pos))
+                            self.map.select_node(selected_position)
+                            self.selected_position = selected_position
+                        elif (click_pos[0] <= self.players.surface.get_width()) and (
+                                click_pos[1] >= self.map.surface.get_height()):
+                            print("Click in player surface: " + str(click_pos))
+                        elif (click_pos[0] >= self.players.surface.get_width()) and (
+                                click_pos[1] >= self.map.surface.get_height()):
+                            print("Click in action surface: " + str(click_pos))
+                elif event.type == pyg.MOUSEBUTTONDOWN and event.button == 4:  # scroll up to test edge selection
                     click_pos = event.pos
-                    if (click_pos[0] <= self.map.surface.get_width()) and (
-                            click_pos[1] <= self.map.surface.get_height()):
-                        selected_position = min(self.map.node_positions.keys(),
-                                                key=lambda pos_xy: self.map.get_distance(
-                                                    pos_xy, click_pos))
-                        self.map.select_node(selected_position)
-                        self.selected_position = selected_position
-                    elif (click_pos[0] <= self.players.surface.get_width()) and (
-                            click_pos[1] >= self.map.surface.get_height()):
-                        print("Click in player surface: " + str(click_pos))
-                    elif (click_pos[0] >= self.players.surface.get_width()) and (
-                            click_pos[1] >= self.map.surface.get_height()):
-                        print("Click in action surface: " + str(click_pos))
-            elif event.type == pyg.MOUSEBUTTONDOWN and event.button == 4:  # scroll up to test edge selection
-                click_pos = event.pos
-                selected_position = min(self.map.node_positions.keys(), key=lambda pos_xy: self.map.get_distance(
-                    pos_xy, click_pos))
-                if self.selected_position is not None:
-                    self.map.select_edge(self.selected_position, selected_position)
-                else:
-                    print("First select start node with left click")
-            elif event.type == pyg.MOUSEBUTTONDOWN and event.button == 3:  # right click to select player position
-                click_pos = event.pos
-                selected_position = min(self.map.node_positions.keys(), key=lambda pos_xy: self.map.get_distance(
-                    pos_xy, click_pos))
-                old_position = (30, 30)
-                self.map.set_player_position(old_position, selected_position, (255, 61, 242))
-            elif event.type == pyg.VIDEORESIZE:
-                self.root_width, self.root_height = event.size
-                self.root = pyg.display.set_mode((self.root_width, self.root_height), pyg.RESIZABLE)
-                self.map.__init__(self.root)
-                self.players.__init__(self.root)
-                self.actions.__init__(self.root)
+                    selected_position = min(self.map.node_positions.keys(), key=lambda pos_xy: self.map.get_distance(
+                        pos_xy, click_pos))
+                    if self.selected_position is not None:
+                        self.map.select_edge(self.selected_position, selected_position)
+                    else:
+                        print("First select start node with left click")
+                elif event.type == pyg.MOUSEBUTTONDOWN and event.button == 3:  # right click to select player position
+                    click_pos = event.pos
+                    selected_position = min(self.map.node_positions.keys(), key=lambda pos_xy: self.map.get_distance(
+                        pos_xy, click_pos))
+                    old_position = (30, 30)
+                    self.map.set_player_position(old_position, selected_position, (255, 61, 242))
+                elif event.type == pyg.VIDEORESIZE:
+                    self.root_width, self.root_height = event.size
+                    self.root = pyg.display.set_mode((self.root_width, self.root_height), pyg.RESIZABLE)
+                    self.config = cfg.PlayerConfigUI(self.root)
+                    self.map.__init__(self.root)
+                    self.players.__init__(self.root)
+                    self.actions.__init__(self.root)
 
     def render(self):
         if not self.config.config_running:
