@@ -22,7 +22,7 @@ class PlayerUI:
         self.players[2].on_turn = True
         """
         self.player_rect_size = 50
-        self.init_surface()
+
 
     def init_surface(self):
         self.surface = pyg.Surface(

@@ -15,7 +15,7 @@ class Game:
         pyg.display.set_icon(icon)
         self.root_width = 1024
         self.root_height = 768
-        self.root = pyg.display.set_mode((self.root_width, self.root_height), pyg.RESIZABLE)
+        self.root = pyg.display.set_mode((self.root_width, self.root_height))
 
         self.running = True
         self.config = cfg.PlayerConfigUI(self.root)
@@ -55,7 +55,7 @@ class Game:
                     self.map.set_player_position(old_position, selected_position, (255, 61, 242))
                 elif event.type == pyg.VIDEORESIZE:
                     self.root_width, self.root_height = event.size
-                    self.root = pyg.display.set_mode((self.root_width, self.root_height), pyg.RESIZABLE)
+                    self.root = pyg.display.set_mode((self.root_width, self.root_height))
                     self.config = cfg.PlayerConfigUI(self.root)
                     self.map.__init__(self.root)
                     self.players.__init__(self.root)
@@ -107,8 +107,7 @@ class Game:
         self.players.add_player("LadyX", (191, 191, 191), True)
         print("Lady X initialisiert.")
         self.set_random_position()
-
-        self.players.__init__(self.root)
+        self.players.init_surface()
 
 
 if __name__ == "__main__":
