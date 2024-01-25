@@ -31,10 +31,7 @@ class PlayerUI:
             )
         )
         self.surface.fill(self.color)
-        # Spieler zeichnen
         self.draw_players()
-        # Fenster aktualisieren
-        pyg.display.flip()
 
     def add_player(self, name, color=(255, 255, 255), ladyX=False):
         if len(self.players) == 0:

@@ -62,7 +62,7 @@ class Game:
                     self.map.set_player_position(old_position, selected_position, (255, 61, 242))
                 elif event.type == pyg.VIDEORESIZE:
                     self.root_width, self.root_height = event.size
-                    self.root = pyg.display.set_mode((self.root_width, self.root_height))
+                    self.root = pyg.display.set_mode((self.root_width, self.root_height), pyg.RESIZABLE)
                     self.config = cfg.PlayerConfigUI(self.root)
                     self.map.__init__(self.root)
                     self.players.__init__(self.root)
@@ -114,6 +114,7 @@ class Game:
         self.players.add_player("LadyX", (191, 191, 191), True)
         print("Lady X initialisiert.")
         self.set_random_position()
+
         self.players.init_surface()
 
 
