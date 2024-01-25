@@ -204,7 +204,7 @@ class Game:
             neighbours = self.map.node_positions[self.players.players[4].current_position].neighbours
             new_x_position = estimate_move(player_positions, neighbours)
             self.players.players[4].current_position = new_x_position
-            new_index = 1
+            new_index = 0
         else:
             new_index = index + 1
         print(str(new_index))
