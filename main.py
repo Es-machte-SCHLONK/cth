@@ -1,5 +1,5 @@
 import random
-from time import sleep
+from math import floor
 
 import pygame as pyg
 from lib.map_surface import map_surface as mas
@@ -44,19 +44,87 @@ class Game:
                                                                            self.map.surface.get_height()):
                         selected_position = min(self.map.node_positions.keys(),
                                                 key=lambda pos_xy: self.map.get_distance(pos_xy, click_pos))
-                        #get player on turn
+                        # get player on turn
                         active_player = None
                         for player in self.players.players:
                             if player.on_turn:
                                 active_player = player
-                        self.selected_position = selected_position
-                        self.map.select_edge(active_player.current_position, selected_position)
+
+                        destination_node = self.map.select_edge(active_player.current_position, selected_position)
+                        if destination_node:
+                            # SRC == Y || DST == Y --> Y
+                            #   [SRC == G && DST != Y --> G
+                            #   DST == G && SRC != Y --> G]
+                            #   ELIF SRC == G || DST == G --> G
+                            #   [SRC == R && DST == R --> R]
+                            #   ELSE R
+                            current_node = self.map.node_positions[active_player.current_position]
+                            if current_node.yellow or destination_node.yellow:
+                                if active_player.yellow > 0:
+                                    print("Go Yellow")
+                                    self.selected_position = selected_position
+                                    self.actions.draw_turn_button(True)
+
+                            elif current_node.green or destination_node.green:
+                                if active_player.green > 0:
+                                    print("Go Green")
+                                    self.selected_position = selected_position
+                                    self.actions.draw_turn_button(True)
+
+                            else:
+                                if active_player.red > 0:
+                                    print("Go Red")
+                                    self.selected_position = selected_position
+                                    self.actions.draw_turn_button(True)
+                        else:
+                            self.selected_position = None
+                            # end turn
+
                     elif (click_pos[0] <= self.players.surface.get_width()) and (
                             click_pos[1] >= self.map.surface.get_height()):
                         print("Click in player surface: " + str(click_pos))
                     elif (click_pos[0] >= self.players.surface.get_width()) and (
                             click_pos[1] >= self.map.surface.get_height()):
-                        print("Click in action surface: " + str(click_pos))
+                        col_width = floor(self.actions.surface.get_width() / 2 / 7)
+                        row_height = floor(self.actions.surface.get_height() / 2 / 7)
+                        button_width = col_width * 2.5
+                        button_height = row_height * 4
+                        end_turn_start_position_x = col_width * 11 + self.players.surface.get_width()
+                        end_turn_start_position_y = row_height * 7 + self.map.surface.get_height()
+                        end_turn_end_position_x = end_turn_start_position_x + button_width
+                        end_turn_end_position_y = end_turn_start_position_y + button_height
+                        if (end_turn_start_position_x <= click_pos[0] <= end_turn_end_position_x) and (
+                                end_turn_start_position_y <= click_pos[1] <= end_turn_end_position_y):
+                            if self.selected_position:
+                                print("end turn clicked")
+                            """
+                                active_player_index = None
+                                counter = -1
+                                active_player = None
+                                current_position = None
+                                for player in self.players.players:
+                                    counter += 1
+                                    if player.on_turn:
+                                        active_player = player
+                                        current_position = player.current_position
+                                        active_player_index = counter
+
+                                if active_player_index == (len(self.players.players) - 1):
+                                    print("LadyX?")
+                                    print("Players Turn: " + self.players.players[0].name)
+                                    self.players.players[0].on_turn = True
+                                    self.players.players[active_player_index].on_turn = False
+                                else:
+                                    print("Players Turn: " + self.players.players[active_player_index + 1].name)
+                                    self.players.players[active_player_index + 1].on_turn = True
+                                    self.players.players[active_player_index].on_turn = False
+                            else:
+                                print("Button-Not-Active")#Skip player
+                            """
+                            self.actions.draw_turn_button(False)
+                            self.players.init_surface()
+
+
                 elif event.type == pyg.VIDEORESIZE:
                     self.root_width, self.root_height = event.size
                     self.root = pyg.display.set_mode((self.root_width, self.root_height), pyg.RESIZABLE)
@@ -109,7 +177,15 @@ class Game:
         for player in self.players.players:
             if not player.ladyX:
                 self.map.set_player_position(player.current_position, player.current_position, player.color)
-
+        print(
+            "Player 1 initialisiert. " + str(self.map.node_positions[self.players.players[0].current_position].number))
+        print(
+            "Player 2 initialisiert. " + str(self.map.node_positions[self.players.players[1].current_position].number))
+        print(
+            "Player 3 initialisiert. " + str(self.map.node_positions[self.players.players[2].current_position].number))
+        print(
+            "Player 4 initialisiert. " + str(self.map.node_positions[self.players.players[3].current_position].number))
+        print("Lady X initialisiert. " + str(self.map.node_positions[self.players.players[4].current_position].number))
         self.players.init_surface()
 
     def changePlayer(self):
@@ -131,6 +207,7 @@ class Game:
         print(str(new_index))
         self.players.players[index].on_turn = False
         self.players.players[new_index].on_turn = True
+
         self.players.init_surface()
 
 

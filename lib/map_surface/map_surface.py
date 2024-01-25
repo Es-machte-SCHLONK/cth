@@ -91,6 +91,7 @@ class Map:
             self.draw_edges()
             pyg.draw.line(self.surface, (2, 18, 115), source_node.position, destination_node.position, 2)
             self.select_node(destination_node.position)
+            return destination_node
         else:
             print("pos_end: " + str(pos_end))
             print("selected node neighbours: " + str(source_node.neighbours))
