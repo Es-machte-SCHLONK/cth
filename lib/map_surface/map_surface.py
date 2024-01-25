@@ -75,7 +75,7 @@ class Map:
 
     def set_player_position(self, old_position, new_position, player_color=(255, 61, 242)):
         selected_node = self.node_positions[new_position]
-        pyg.draw.circle(self.surface, self.map_color, old_position, 25)
+        pyg.draw.circle(self.surface, self.map_color, old_position, 20)
         pyg.draw.circle(self.surface, player_color, selected_node.position, 20)
         self.draw_nodes()
 

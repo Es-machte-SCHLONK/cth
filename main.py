@@ -55,12 +55,6 @@ class Game:
                     elif (click_pos[0] >= self.players.surface.get_width()) and (
                             click_pos[1] >= self.map.surface.get_height()):
                         print("Click in action surface: " + str(click_pos))
-                elif event.type == pyg.MOUSEBUTTONDOWN and event.button == 3:  # right click to select player position
-                    click_pos = event.pos
-                    selected_position = min(self.map.node_positions.keys(), key=lambda pos_xy: self.map.get_distance(
-                        pos_xy, click_pos))
-                    old_position = (30, 30)
-                    self.map.set_player_position(old_position, selected_position, (255, 61, 242))
                 elif event.type == pyg.VIDEORESIZE:
                     self.root_width, self.root_height = event.size
                     self.root = pyg.display.set_mode((self.root_width, self.root_height), pyg.RESIZABLE)
