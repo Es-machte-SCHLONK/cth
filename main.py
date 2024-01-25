@@ -199,7 +199,6 @@ class Game:
             if player.on_turn:
                 active_player = player
         index = self.players.players.index(active_player)
-        print(str(index))
         if index == 3:
             neighbours = self.map.node_positions[self.players.players[4].current_position].neighbours
             new_x_position = estimate_move(player_positions, neighbours)
@@ -207,7 +206,9 @@ class Game:
             new_index = 0
         else:
             new_index = index + 1
-        print(str(new_index))
+        self.map.set_player_position(self.players.players[index].current_position, self.selected_position,
+                                     self.players.players[index].color)
+        self.players.players[index].current_position = self.selected_position
         self.players.players[index].on_turn = False
         self.players.players[new_index].on_turn = True
 
