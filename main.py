@@ -4,7 +4,7 @@ import pygame as pyg
 from lib.map_surface import map_surface as mas
 from lib.players_surface import players_surface as pls
 from lib.actions_surface import actions_surface as acs
-from lib.conig_surface import config_surface as cfg
+from lib.config_surface import config_surface as cfg
 
 
 class Game:
