@@ -17,6 +17,7 @@ class PlayerUI:
         self.players.append(Player("Player 3", (245, 138, 66)))
         self.players.append(Player("Player 4", (217, 247, 119)))
         self.players.append(Player("Lady X", (191, 191, 191)))
+        self.players[2].on_turn = True
         self.player_rect_size = 50
         self.init_surface()
 
@@ -61,4 +62,14 @@ class PlayerUI:
                                                            player_card_height), 0, 10)
                 # Text
                 self.surface.blit(player_name, player_name.get_rect(center=(player_rect_x + (player_card_width//2), 30)))
+                # Current!
+                if player.on_turn:
+                    pyg.draw.rect(self.surface, (0, 0, 0),
+                                  (player_rect_x + 5, 15+40, player_card_width - 10, player_card_height-50),0,10)
+                    pyg.draw.rect(self.surface, (255, 0, 0),
+                                  (player_rect_x + 5, 15 + 40, player_card_width - 10, player_card_height - 50), 5, 10)
+                    turn_text = font.render("Am Zug", True, (255, 0, 0))
+                    self.surface.blit(turn_text,
+                                      turn_text.get_rect(center=(player_rect_x + (player_card_width // 2), 90)))
                 player_rect_x += (player_card_spacing + player_card_width)  # Abstand zwischen den Spieler-Rechtecken"""
+

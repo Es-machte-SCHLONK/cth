@@ -10,6 +10,7 @@ class Player:
         self._yellow = 10
         self._green = 5
         self._red = 3
+        self._on_turn = False
 
     @property
     def name(self):
@@ -58,3 +59,11 @@ class Player:
     @yellow.setter
     def yellow(self, value):
         self._yellow = value
+
+    @property
+    def on_turn(self):
+        return self._on_turn
+
+    @on_turn.setter
+    def on_turn(self, is_on_turn):
+        self._on_turn = is_on_turn
