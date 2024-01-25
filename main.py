@@ -98,6 +98,7 @@ class Game:
                         if (end_turn_start_position_x <= click_pos[0] <= end_turn_end_position_x) and (
                                 end_turn_start_position_y <= click_pos[1] <= end_turn_end_position_y):
                             if self.selected_position:
+                                self.changePlayer()
                                 print("end turn clicked")
                             """
                                 active_player_index = None
