@@ -161,14 +161,15 @@ class Game:
     def set_random_position(self):
         existing_positions = []
         for player in self.players.players:
-            existing_positions.append(player.current_position)
-        for player in self.players.players:
+            for existing_player in self.players.players:
+                existing_positions.append(existing_player.current_position)
             position_valid = False
             while not position_valid:
                 temp_position = random.choice(list(self.map.node_positions.keys()))
                 if temp_position not in existing_positions:
                     player.current_position = temp_position
                     position_valid = True
+                existing_positions.clear()
 
     def init_players(self):
         self.players.add_player("Hunter1", (218, 66, 245))
