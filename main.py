@@ -62,7 +62,6 @@ class Game:
                             current_node = self.map.node_positions[active_player.current_position]
                             if current_node.yellow or destination_node.yellow:
                                 if active_player.yellow > 0:
-                                    print("Go Yellow")
                                     self.action_needed = "y"
                                     self.selected_position = selected_position
                                     self.actions.draw_turn_button(True)
