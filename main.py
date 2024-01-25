@@ -22,7 +22,7 @@ class Game:
         self.map = mas.Map(self.root)
         self.players = pls.PlayerUI(self.root)
         self.actions = acs.Actions(self.root)
-
+        self.init_players()
         self.selected_position = None  # set on left click
 
     def handle_events(self):
@@ -88,10 +88,27 @@ class Game:
         for player in self.players.players:
             existing_positions.append(player.current_position)
         for player in self.players.players:
-            while True:
+            position_valid = False
+            while not position_valid:
                 temp_position = random.choice(list(self.map.node_positions.values()))
                 if temp_position not in existing_positions:
                     player.current_position = temp_position
+                    position_valid = True
+
+    def init_players(self):
+        self.players.add_player("Hunter1", (218, 66, 245))
+        print("Player 1 initialisiert.")
+        self.players.add_player("Hunter2", (66, 245, 194))
+        print("Player 2 initialisiert.")
+        self.players.add_player("Hunter3", (245, 138, 66))
+        print("Player 3 initialisiert.")
+        self.players.add_player("Hunter4", (217, 247, 119))
+        print("Player 4 initialisiert.")
+        self.players.add_player("LadyX", (191, 191, 191), True)
+        print("Lady X initialisiert.")
+        self.set_random_position()
+
+        self.players.__init__(self.root)
 
 
 if __name__ == "__main__":

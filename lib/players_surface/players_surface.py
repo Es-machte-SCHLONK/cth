@@ -13,12 +13,14 @@ class PlayerUI:
         self.root_height = root_screen.get_height()
         self.root_width = root_screen.get_width()
         self.players = []
+        """
         self.players.append(Player("Player 1", (218, 66, 245)))
         self.players.append(Player("Player 2", (66, 245, 194)))
         self.players.append(Player("Player 3", (245, 138, 66)))
         self.players.append(Player("Player 4", (217, 247, 119)))
         self.players.append(Player("Lady X", (191, 191, 191)))
         self.players[2].on_turn = True
+        """
         self.player_rect_size = 50
         self.init_surface()
 
@@ -34,13 +36,13 @@ class PlayerUI:
         # Fenster aktualisieren
         pyg.display.flip()
 
-    def add_player(self, name, color=(255, 255, 255)):
+    def add_player(self, name, color=(255, 255, 255), ladyX=False):
         if len(self.players) == 0:
-            new_player = Player(name, color)
+            new_player = Player(name, color, ladyX)
             new_player.on_turn = True
             self.players.append(new_player)
         else:
-            new_player = Player(name, color)
+            new_player = Player(name, color, ladyX)
             self.players.append(new_player)
 
     def draw_players(self):
