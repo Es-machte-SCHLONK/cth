@@ -3,7 +3,7 @@ import pygame as pyg
 
 
 class Player:
-    def __init__(self, name, color=(255, 255, 255)):
+    def __init__(self, name, color=(255, 255, 255), ladyX=False):
         self._name = name
         self._color = color
         self._current_position = 0
@@ -11,6 +11,7 @@ class Player:
         self._green = 5
         self._red = 3
         self._on_turn = False
+        self._ladyX = ladyX
 
     @property
     def name(self):
@@ -67,3 +68,14 @@ class Player:
     @on_turn.setter
     def on_turn(self, is_on_turn):
         self._on_turn = is_on_turn
+
+    @property
+    def ladyX(self):
+        return self._ladyX
+
+    @ladyX.setter
+    def ladyX(self, ladyX_toggle):
+        self._on_turn = ladyX_toggle
+
+
+
