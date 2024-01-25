@@ -110,11 +110,14 @@ class Game:
         self.players.add_player("Hunter4", (217, 247, 119))
         self.players.add_player("LadyX", (191, 191, 191), True)
         self.set_random_position()
+        for player in self.players.players:
+            if not player.ladyX:
+                self.map.set_player_position(player.current_position, player.current_position, player.color)
         print("Player 1 initialisiert. " + str(self.map.node_positions[self.players.players[0].current_position].number))
-        print("Player 2 initialisiert. " + str(self.players.players[1].current_position))
-        print("Player 3 initialisiert. " + str(self.players.players[2].current_position))
-        print("Player 4 initialisiert. " + str(self.players.players[3].current_position))
-        print("Lady X initialisiert. " + str(self.players.players[4].current_position))
+        print("Player 2 initialisiert. " + str(self.map.node_positions[self.players.players[1].current_position].number))
+        print("Player 3 initialisiert. " + str(self.map.node_positions[self.players.players[2].current_position].number))
+        print("Player 4 initialisiert. " + str(self.map.node_positions[self.players.players[3].current_position].number))
+        print("Lady X initialisiert. " + str(self.map.node_positions[self.players.players[4].current_position].number))
         self.players.init_surface()
 
 
