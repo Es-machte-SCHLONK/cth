@@ -1,3 +1,5 @@
+import random
+
 import pygame as pyg
 from lib.map_surface import map_surface as mas
 from lib.players_surface import players_surface as pls
@@ -80,6 +82,16 @@ class Game:
             self.handle_events()
             self.render()
             pyg.display.update()
+
+    def set_random_position(self):
+        existing_positions = []
+        for player in self.players.players:
+            existing_positions.append(player.current_position)
+        for player in self.players.players:
+            while True:
+                temp_position = random.choice(list(self.map.node_positions.values()))
+                if temp_position not in existing_positions:
+                    player.current_position = temp_position
 
 
 if __name__ == "__main__":
