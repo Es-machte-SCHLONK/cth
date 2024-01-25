@@ -44,7 +44,7 @@ class Game:
                                                                            self.map.surface.get_height()):
                         selected_position = min(self.map.node_positions.keys(),
                                                 key=lambda pos_xy: self.map.get_distance(pos_xy, click_pos))
-                        #get player on turn
+                        # get player on turn
                         active_player = None
                         for player in self.players.players:
                             if player.on_turn:
@@ -90,14 +90,15 @@ class Game:
     def set_random_position(self):
         existing_positions = []
         for player in self.players.players:
-            existing_positions.append(player.current_position)
-        for player in self.players.players:
+            for existing_player in self.players.players:
+                existing_positions.append(existing_player.current_position)
             position_valid = False
             while not position_valid:
                 temp_position = random.choice(list(self.map.node_positions.keys()))
                 if temp_position not in existing_positions:
                     player.current_position = temp_position
                     position_valid = True
+                existing_positions.clear()
 
     def init_players(self):
         self.players.add_player("Hunter1", (218, 66, 245))
@@ -107,8 +108,8 @@ class Game:
         self.players.add_player("LadyX", (191, 191, 191), True)
         self.set_random_position()
         for player in self.players.players:
-            if not player.ladyX:
-                self.map.set_player_position(player.current_position, player.current_position, player.color)
+            #if not player.ladyX:
+            self.map.set_player_position(player.current_position, player.current_position, player.color)
 
         self.players.init_surface()
 
@@ -120,21 +121,20 @@ class Game:
             if player.on_turn:
                 active_player = player
         index = self.players.players.index(active_player)
-        print(str(index))
         if index == 3:
             neighbours = self.map.node_positions[self.players.players[4].current_position].neighbours
             new_x_position = estimate_move(player_positions, neighbours)
             self.players.players[4].current_position = new_x_position
-            new_index = 1
+            new_index = 0
         else:
             new_index = index + 1
-        print(str(new_index))
+        self.map.set_player_position(self.players.players[index].current_position, self.selected_position,
+                                     self.players.players[index].color)
+        self.players.players[index].current_position = self.selected_position
         self.players.players[index].on_turn = False
         self.players.players[new_index].on_turn = True
+        self.map.init_surface(self.root)
         self.players.init_surface()
-
-
-
 
 
 if __name__ == "__main__":
