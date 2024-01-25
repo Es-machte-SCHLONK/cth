@@ -200,15 +200,26 @@ class Game:
                 active_player = player
         index = self.players.players.index(active_player)
         if index == 3:
+            print(self.players.players[4].current_position)
             neighbours = self.map.node_positions[self.players.players[4].current_position].neighbours
             new_x_position = estimate_move(player_positions, neighbours)
+            print(new_x_position)
             self.players.players[4].current_position = new_x_position
+
             new_index = 0
         else:
             new_index = index + 1
         self.map.set_player_position(self.players.players[index].current_position, self.selected_position,
                                      self.players.players[index].color)
         self.players.players[index].current_position = self.selected_position
+        if self.action_needed == "y":
+            self.players.players[index].yellow = self.players.players[index].yellow - 1
+        elif self.action_needed == "g":
+            self.players.players[index].green = self.players.players[index].green - 1
+        elif self.action_needed == "r":
+            self.players.players[index].red = self.players.players[index].red - 1
+        else:
+            print("Fehler: Kein Ticket verwendet!")
         self.players.players[index].on_turn = False
         self.players.players[new_index].on_turn = True
         self.map.draw_edges()
