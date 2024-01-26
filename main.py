@@ -79,7 +79,7 @@ class Game:
                                     self.selected_position = selected_position
                                     self.actions.draw_turn_button(True)
                         else:
-                            self.selected_position = None
+                            self.selected_position = active_player.current_position
                             # end turn
 
                     elif (click_pos[0] <= self.players.surface.get_width()) and (
@@ -99,30 +99,6 @@ class Game:
                                 end_turn_start_position_y <= click_pos[1] <= end_turn_end_position_y):
                             if self.selected_position:
                                 self.change_player()
-                            """
-                                active_player_index = None
-                                counter = -1
-                                active_player = None
-                                current_position = None
-                                for player in self.players.players:
-                                    counter += 1
-                                    if player.on_turn:
-                                        active_player = player
-                                        current_position = player.current_position
-                                        active_player_index = counter
-
-                                if active_player_index == (len(self.players.players) - 1):
-                                    print("LadyX?")
-                                    print("Players Turn: " + self.players.players[0].name)
-                                    self.players.players[0].on_turn = True
-                                    self.players.players[active_player_index].on_turn = False
-                                else:
-                                    print("Players Turn: " + self.players.players[active_player_index + 1].name)
-                                    self.players.players[active_player_index + 1].on_turn = True
-                                    self.players.players[active_player_index].on_turn = False
-                            else:
-                                print("Button-Not-Active")#Skip player
-                            """
                             self.actions.draw_turn_button(False)
                             self.players.init_surface()
                 elif event.type == pyg.VIDEORESIZE:
@@ -230,7 +206,13 @@ class Game:
                       " to " + str(selected_position_node.number))
                 # Check for Win after move
                 if self.players.players[index].current_position == self.players.players[4].current_position:
+                    print("------------------------------------------------")
+                    print("------------------------------------------------")
+                    print("------------------------------------------------")
                     print(self.players.players[index].name + " caught Lady X")
+                    print("------------------------------------------------")
+                    print("------------------------------------------------")
+                    print("------------------------------------------------")
                     # Player catched Lady X
                     # self.running = False
 
@@ -277,7 +259,8 @@ class Game:
                 self.players.players[0].on_turn = True
                 self.actions.draw_player_state(self.players.players[0])
             else:
-                print("Players won, Lady X can't move!")
+                print("<<<<<Players won, Lady X can't move!>>>>")
+                print("<<<<<Players won, Lady X can't move!>>>>")
                 # players won!
                 # self.running = False
         self.map.draw_edges()
@@ -286,10 +269,7 @@ class Game:
         self.players.init_surface()
 
 
-
-
 if __name__ == "__main__":
     game = Game()
     game.run()
     pyg.quit()
-
