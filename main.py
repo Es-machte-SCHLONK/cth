@@ -188,7 +188,7 @@ class Game:
             "Player 4 initialisiert. " + str(self.map.node_positions[self.players.players[3].current_position].number))
         print("Lady X initialisiert. " + str(self.map.node_positions[self.players.players[4].current_position].number))
         self.players.init_surface()
-
+#1
     def change_player(self):
         active_player = None
         player_positions = []
