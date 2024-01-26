@@ -98,7 +98,6 @@ class Game:
                                 end_turn_start_position_y <= click_pos[1] <= end_turn_end_position_y):
                             if self.selected_position:
                                 self.change_player()
-                                print("end turn clicked")
                             """
                                 active_player_index = None
                                 counter = -1
@@ -199,10 +198,10 @@ class Game:
                 active_player = player
         index = self.players.players.index(active_player)
         if index == 3:
-            print(self.players.players[4].current_position)
+            print("Lady X src: "+str(self.players.players[4].current_position)+ ": "+str(self.map.node_positions[self.players.players[4].current_position].number))
             neighbours = self.map.node_positions[self.players.players[4].current_position].neighbours
             new_x_position = estimate_move(player_positions, neighbours)
-            print(new_x_position)
+            print("Lady X dst: "+str(new_x_position) + ": "+str(self.map.node_positions[new_x_position].number))
             if new_x_position:
                 self.players.players[4].current_position = new_x_position
 
@@ -215,7 +214,11 @@ class Game:
             new_index = index + 1
         self.map.set_player_position(self.players.players[index].current_position, self.selected_position,
                                      self.players.players[index].color)
+        print(self.players.players[index].name + " src: " + str(self.players.players[index].current_position) + ": " + str(
+            self.map.node_positions[self.players.players[index].current_position].number))
         self.players.players[index].current_position = self.selected_position
+        print(self.players.players[index].name + " dst: " + str(self.players.players[index].current_position) + ": " + str(
+            self.map.node_positions[self.players.players[index].current_position].number))
         if self.action_needed == "y":
             self.players.players[index].yellow = self.players.players[index].yellow - 1
         elif self.action_needed == "g":
