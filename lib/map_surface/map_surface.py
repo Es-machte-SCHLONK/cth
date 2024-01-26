@@ -436,5 +436,3 @@ class Map:
                 else:
                     edge_color = n.color
                 pyg.draw.line(self.surface, edge_color, n.position, nb.position, 2)
-
-# comment
