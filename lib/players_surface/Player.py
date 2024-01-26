@@ -7,8 +7,8 @@ class Player:
         self._name = name
         self._color = color
         self._current_position = 0
-        self._yellow = 10
-        self._green = 5
+        self._yellow = 7
+        self._green = 4
         self._red = 3
         self._on_turn = False
         self._ladyX = ladyX

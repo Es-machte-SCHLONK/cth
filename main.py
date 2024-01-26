@@ -27,6 +27,7 @@ class Game:
         self.init_players()
         self.selected_position = None  # set on left click
         self.action_needed = None
+        self.x_move_counter = -1
 
     def handle_events(self):
         if self.config.config_running:
@@ -169,6 +170,7 @@ class Game:
 
     def init_players(self):
         self.players.add_player("Hunter1", (218, 66, 245))
+        self.actions.draw_player_state(self.players.players[0])
         self.players.add_player("Hunter2", (66, 245, 194))
         self.players.add_player("Hunter3", (245, 138, 66))
         self.players.add_player("Hunter4", (217, 247, 119))
@@ -200,6 +202,7 @@ class Game:
                 active_player = player
         # get index of active player
         index = self.players.players.index(active_player)
+
         # 0, 1, 2, 3 = players, 4 = lady x
         if index < 4:
             can_move = False
@@ -235,6 +238,7 @@ class Game:
                 self.players.players[index].on_turn = False
                 if index < 3:
                     self.players.players[index + 1].on_turn = True
+                    self.actions.draw_player_state(self.players.players[index + 1])
                 # clear selected position
                 self.selected_position = None
 
@@ -251,17 +255,34 @@ class Game:
             # new_x_position = False
             if new_x_position:
                 selected_position_node = self.map.node_positions[new_x_position]
+                # Update Lady X move counter:
+                self.x_move_counter += 1
+                self.actions.x_trackers[self.x_move_counter].node_position = new_x_position
+                self.actions.x_trackers[self.x_move_counter].node = self.map.node_positions[new_x_position]
+                self.actions.x_trackers[self.x_move_counter].node_number = (
+                    self.map.node_positions[new_x_position].number)
+                if current_position_node.yellow or selected_position_node.yellow:
+                    self.actions.x_trackers[self.x_move_counter].color = (255, 107, 97)
+                elif current_position_node.green or selected_position_node.green:
+                    self.actions.x_trackers[self.x_move_counter].color = (66, 219, 73)
+                else:
+                    self.actions.x_trackers[self.x_move_counter].color = (255, 250, 97)
+                self.actions.x_trackers[self.x_move_counter].color = self.map.node_positions[new_x_position].color
+                # move counter end
+
                 print("Lady X moved to " + str(selected_position_node.number))
                 self.players.players[4].current_position = selected_position_node.position
                 player_positions.clear()
                 self.players.players[index].on_turn = False
                 self.players.players[0].on_turn = True
+                self.actions.draw_player_state(self.players.players[0])
             else:
                 print("Players won, Lady X can't move!")
                 # players won!
                 # self.running = False
         self.map.draw_edges()
         self.map.draw_nodes()
+        self.actions.draw_x_counters()
         self.players.init_surface()
 
 

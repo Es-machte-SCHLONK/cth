@@ -25,8 +25,6 @@ class Actions:
         self.init_surface()
         self.generate_x_counters()
         self.draw_x_counters()
-        test_player = player.Player("Hans")
-        self.draw_player_state(test_player)
         self.draw_turn_button()
 
     def init_surface(self):
@@ -81,9 +79,15 @@ class Actions:
             pyg.draw.circle(self.surface, (15, 15, 15), tracker.center, 10, 3)
             number_shadow = font.render(str(counter), True, (10, 10, 10))
             if tracker.show:
+
+                if tracker.node:
+                    node_font = pyg.font.SysFont("arial bold", 15)
+                    x_counter_no = node_font.render(str(tracker.node.number), True, (0, 0, 0))
+                    self.surface.blit(x_counter_no, x_counter_no.get_rect(center=tracker.center))
                 number = font.render(str(counter), True, (230, 0, 0))
                 # outline red
                 pyg.draw.circle(self.surface, (105, 0, 0), tracker.center, 10, 2)
+
             else:
                 number = font.render(str(counter), True, (220, 220, 220))
                 # outline normal
@@ -98,6 +102,8 @@ class Actions:
         row_height = floor(self.surface.get_height() / 2 / 7)
         font = pyg.font.SysFont("arial bold", 24)
         player_name_text = font.render(player.name, True, (220, 220, 220))
+        pyg.draw.rect(self.surface, (34, 34, 34),
+                      (floor(col_width * 6.5), row_height, floor(col_width * 7.5), row_height * 5))
         self.surface.blit(player_name_text, player_name_text.get_rect(
             center=(floor(col_width * 7.5), row_height * 2)))
         font = pyg.font.SysFont("arial bold", 20)
@@ -108,7 +114,7 @@ class Actions:
         font = pyg.font.SysFont("arial bold", 20)
 
         # yellow
-        yellow = font.render(player.yellow.__str__(), True, (0, 0, 0))
+        yellow = font.render(str(player.yellow), True, (0, 0, 0))
         pyg.draw.circle(self.surface, (10, 10, 10), (col_width * 7.2 + 3, row_height * 9 + 3), 20)
         pyg.draw.circle(self.surface, (255, 250, 97), (col_width * 7.2, row_height * 9), 20)
         pyg.draw.circle(self.surface, (15, 15, 15), (col_width * 7.2, row_height * 9), 20, 3)
@@ -116,7 +122,7 @@ class Actions:
         self.surface.blit(yellow, yellow.get_rect(
             center=(col_width * 7.2, row_height * 9)))
         # green
-        green = font.render(player.green.__str__(), True, (0, 0, 0))
+        green = font.render(str(player.green), True, (0, 0, 0))
         pyg.draw.circle(self.surface, (10, 10, 10), (col_width * 8.5 + 3, row_height * 9 + 3), 20)
         pyg.draw.circle(self.surface, (66, 219, 73), (col_width * 8.5, row_height * 9), 20)
         pyg.draw.circle(self.surface, (15, 15, 15), (col_width * 8.5, row_height * 9), 20, 3)
@@ -124,7 +130,7 @@ class Actions:
         self.surface.blit(green, yellow.get_rect(
             center=(col_width * 8.55, row_height * 9)))
         # red
-        red = font.render(player.red.__str__(), True, (0, 0, 0))
+        red = font.render(str(player.red), True, (0, 0, 0))
         pyg.draw.circle(self.surface, (10, 10, 10), (col_width * 9.75 + 3, row_height * 9 + 3), 20)
         pyg.draw.circle(self.surface, (255, 107, 97), (col_width * 9.75, row_height * 9), 20)
         pyg.draw.circle(self.surface, (15, 15, 15), (col_width * 9.75, row_height * 9), 20, 3)
@@ -153,13 +159,13 @@ class Actions:
             button_height
         )
         button_shadow_rect = pyg.Rect(
-            col_width * 11+30,
-            row_height * 7+3,
+            col_width * 11 + 30,
+            row_height * 7 + 3,
             button_width,
             button_height
         )
         pyg.draw.rect(self.surface, (10, 10, 10),
-                      (col_width * 11+3, row_height * 7+3, button_width, button_height),
+                      (col_width * 11 + 3, row_height * 7 + 3, button_width, button_height),
                       0, 10)
         pyg.draw.rect(self.surface, button_color,
                       (col_width * 11, row_height * 7, button_width, button_height),
