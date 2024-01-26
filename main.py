@@ -188,7 +188,8 @@ class Game:
             "Player 4 initialisiert. " + str(self.map.node_positions[self.players.players[3].current_position].number))
         print("Lady X initialisiert. " + str(self.map.node_positions[self.players.players[4].current_position].number))
         self.players.init_surface()
-#1
+
+    # 1
     def change_player(self):
         active_player = None
         player_positions = []
@@ -207,7 +208,9 @@ class Game:
 
                 new_index = 0
             else:
+                print("Players won, Lady X can't move!")
                 # players won!
+                self.running = False
         else:
             new_index = index + 1
         self.map.set_player_position(self.players.players[index].current_position, self.selected_position,
