@@ -8,9 +8,11 @@ def estimate_move(player_positions, neighbours):
     for point in neighbours:
         if point in player_positions:
             neighbours.remove(point)
-    # random move
-    rnd_turn = random.randint(0, len(neighbours)-1)
-
-    # publish move
-    return neighbours[rnd_turn].position
+    if len(neighbours) != 0:
+        # random move
+        rnd_turn = random.randint(0, len(neighbours)-1)
+        # publish move
+        return neighbours[rnd_turn].position
+    else:
+        return False
 
