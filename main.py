@@ -190,56 +190,85 @@ class Game:
 
     # 1
     def change_player(self):
-        active_player = None
+        # get active player
+        # get all players positions
         player_positions = []
+        active_player = None
         for player in self.players.players:
             player_positions.append(player.current_position)
             if player.on_turn:
                 active_player = player
+        # get index of active player
         index = self.players.players.index(active_player)
-        if index == 3:
-            print("Lady X src: "+str(self.players.players[4].current_position)+ ": "+str(self.map.node_positions[self.players.players[4].current_position].number))
-            neighbours = self.map.node_positions[self.players.players[4].current_position].neighbours
-            new_x_position = estimate_move(player_positions, neighbours)
-            print("Lady X dst: "+str(new_x_position) + ": "+str(self.map.node_positions[new_x_position].number))
-            if new_x_position:
-                self.players.players[4].current_position = new_x_position
+        # 0, 1, 2, 3 = players, 4 = lady x
+        if index < 4:
+            can_move = False
+            if self.action_needed == "y":
+                self.players.players[index].yellow = self.players.players[index].yellow - 1
+                can_move = True
+            elif self.action_needed == "g":
+                self.players.players[index].green = self.players.players[index].green - 1
+                can_move = True
+            elif self.action_needed == "r":
+                self.players.players[index].red = self.players.players[index].red - 1
+                can_move = True
+            else:
+                print("Fehler: Kein Ticket verwendet!")
+            if can_move:
+                # get nodes for current and future position of active player.
+                current_position_node = self.map.node_positions[self.players.players[index].current_position]
+                selected_position_node = self.map.node_positions[self.selected_position]
+                # move player marker on map
+                self.map.set_player_position(current_position_node.position, selected_position_node.position,
+                                             self.players.players[index].color)
+                # set players new current position
+                self.players.players[index].current_position = selected_position_node.position
+                print(self.players.players[index].name + " moved from " + str(current_position_node.number) +
+                      " to " + str(selected_position_node.number))
+                # Check for Win after move
+                if self.players.players[index].current_position == self.players.players[4].current_position:
+                    print(self.players.players[index].name + " caught Lady X")
+                    # Player catched Lady X
+                    # self.running = False
 
-                new_index = 0
+                # set on_turn for active player on false
+                self.players.players[index].on_turn = False
+                if index < 3:
+                    self.players.players[index + 1].on_turn = True
+                # clear selected position
+                self.selected_position = None
+
+        if index == 3:  # = Player 4 is ending its turn
+            # Clear and update player positions
+            player_positions.clear()
+            for player in self.players.players:
+                player_positions.append(player.current_position)
+            current_position_node = self.map.node_positions[self.players.players[4].current_position]
+            print("Lady X is at " + str(current_position_node.number))
+
+            new_x_position = estimate_move(player_positions, current_position_node.neighbours)
+            # If Lady X was not able to move, due to all neighbour nodes being blocked,
+            # new_x_position = False
+            if new_x_position:
+                selected_position_node = self.map.node_positions[new_x_position]
+                print("Lady X moved to " + str(selected_position_node.number))
+                self.players.players[4].current_position = selected_position_node.position
+                player_positions.clear()
+                self.players.players[index].on_turn = False
+                self.players.players[0].on_turn = True
             else:
                 print("Players won, Lady X can't move!")
                 # players won!
-                self.running = False
-        else:
-            new_index = index + 1
-        self.map.set_player_position(self.players.players[index].current_position, self.selected_position,
-                                     self.players.players[index].color)
-        print(self.players.players[index].name + " src: " + str(self.players.players[index].current_position) + ": " + str(
-            self.map.node_positions[self.players.players[index].current_position].number))
-        self.players.players[index].current_position = self.selected_position
-        print(self.players.players[index].name + " dst: " + str(self.players.players[index].current_position) + ": " + str(
-            self.map.node_positions[self.players.players[index].current_position].number))
-        if self.action_needed == "y":
-            self.players.players[index].yellow = self.players.players[index].yellow - 1
-        elif self.action_needed == "g":
-            self.players.players[index].green = self.players.players[index].green - 1
-        elif self.action_needed == "r":
-            self.players.players[index].red = self.players.players[index].red - 1
-        else:
-            print("Fehler: Kein Ticket verwendet!")
-        self.players.players[index].on_turn = False
-        self.players.players[new_index].on_turn = True
+                # self.running = False
         self.map.draw_edges()
         self.map.draw_nodes()
         self.players.init_surface()
-        if self.players.players[index].current_position == self.players.players[4].current_position:
-            print(self.players.players[index].name + " caught Lady X")
-            # Player catched Lady X
-            self.running = False
+
+
 
 
 if __name__ == "__main__":
     game = Game()
     game.run()
     pyg.quit()
-# ha
+
