@@ -192,6 +192,7 @@ class Game:
     def change_player(self):
         active_player = None
         player_positions = []
+
         for player in self.players.players:
             player_positions.append(player.current_position)
             if player.on_turn:
