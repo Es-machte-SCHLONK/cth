@@ -229,6 +229,10 @@ class Game:
         self.map.draw_edges()
         self.map.draw_nodes()
         self.players.init_surface()
+        if self.players.players[index].current_position == self.players.players[4].current_position:
+            print(self.players.players[index].name + " caught Lady X")
+            # Player catched Lady X
+            self.running = False
 
 
 if __name__ == "__main__":
