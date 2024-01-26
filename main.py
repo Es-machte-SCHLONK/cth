@@ -25,7 +25,7 @@ class Game:
         self.players = pls.PlayerUI(self.root)
         self.actions = acs.Actions(self.root)
         self.init_players()
-        self.selected_position = None# set on left click
+        self.selected_position = None  # set on left click
         self.action_needed = None
 
     def handle_events(self):
@@ -97,7 +97,7 @@ class Game:
                         if (end_turn_start_position_x <= click_pos[0] <= end_turn_end_position_x) and (
                                 end_turn_start_position_y <= click_pos[1] <= end_turn_end_position_y):
                             if self.selected_position:
-                                self.changePlayer()
+                                self.change_player()
                                 print("end turn clicked")
                             """
                                 active_player_index = None
@@ -125,8 +125,6 @@ class Game:
                             """
                             self.actions.draw_turn_button(False)
                             self.players.init_surface()
-
-
                 elif event.type == pyg.VIDEORESIZE:
                     self.root_width, self.root_height = event.size
                     self.root = pyg.display.set_mode((self.root_width, self.root_height), pyg.RESIZABLE)
@@ -190,8 +188,8 @@ class Game:
             "Player 4 initialisiert. " + str(self.map.node_positions[self.players.players[3].current_position].number))
         print("Lady X initialisiert. " + str(self.map.node_positions[self.players.players[4].current_position].number))
         self.players.init_surface()
-
-    def changePlayer(self):
+#1
+    def change_player(self):
         active_player = None
         player_positions = []
         for player in self.players.players:
@@ -226,7 +224,9 @@ class Game:
         self.map.draw_nodes()
         self.players.init_surface()
 
+
 if __name__ == "__main__":
     game = Game()
     game.run()
     pyg.quit()
+# ha
