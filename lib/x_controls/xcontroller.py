@@ -2,21 +2,22 @@ import random
 
 
 def estimate_move(player_positions, neighbours):
-    # get neighbor nodes of actual position --> Muss in Main passieren
     # get position muss vorher passieren
     # check if occupied by players
+    newNeighbours = []
     for n in neighbours:
         print("neighbour: " + str(n.position) + ": " + str(n.number))
     for point in neighbours:
-        print(point.position)
-        if point.position in player_positions:
-            neighbours.remove(point)
-    for n in neighbours:
+        if point.position not in player_positions:
+            newNeighbours.append(point)
+            print("point number" + str(point.number) + " added")
+    print(str(newNeighbours))
+    for n in newNeighbours:
         print("neighour after deletion: "+str(n.position) + ": " + str(n.number))
-    if len(neighbours) != 0:
+    if len(newNeighbours) != 0:
         # random move
-        rnd_turn = random.randint(0, len(neighbours) - 1)
+        rnd_turn = random.randint(0, len(newNeighbours) - 1)
         # publish move
-        return neighbours[rnd_turn].position
+        return newNeighbours[rnd_turn].position
     else:
         return False
